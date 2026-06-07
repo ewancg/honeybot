@@ -183,8 +183,8 @@ impl Handler {
                         author.display_name(),
                         author.id,
                         match action {
-                            Action::Kick => "kicked ",
-                            Action::Ban => "banned ",
+                            Action::Kick => "kicked",
+                            Action::Ban => "banned",
                             Action::LogOnly => unreachable!(),
                         }
                     )),
@@ -209,12 +209,6 @@ impl EventHandler for Handler {
             .await
         {
             return;
-        }
-
-        // Notification to log channel (non-actionable, just informative)
-        if let Some(logging_channel) = self.logging_channel {
-            self.notify(&ctx, &msg, &logging_channel, &msg.author, &self.action)
-                .await;
         }
 
         if let Some(guild_id) = msg.guild_id {
@@ -251,6 +245,12 @@ impl EventHandler for Handler {
                     }
                 }
             }
+        }
+
+        // Notification to log channel (non-actionable, just informative)
+        if let Some(logging_channel) = self.logging_channel {
+            self.notify(&ctx, &msg, &logging_channel, &msg.author, &self.action)
+                .await;
         }
     }
 
