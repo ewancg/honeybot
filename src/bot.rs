@@ -105,6 +105,11 @@ impl Handler {
         user_id: &UserId,
         guild_id: &GuildId,
     ) -> bool {
+        // Allowed because the bot sent this message and we don't want recursion
+        if user_id == &ctx.cache.current_user().id {
+            return true;
+        }
+
         // Allowed because this is not a watched channel
         if !self.channel_watchlist.contains(&msg.channel_id) {
             return true;
